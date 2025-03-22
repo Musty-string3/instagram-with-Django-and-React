@@ -76,7 +76,7 @@ class Profile(models.Model):
 
     class Meta:
         verbose_name_plural = '02-02.ユーザープロフィール'
-        db_table = 'user'
+        db_table = 'user_profile'
 
     def __str__(self):
         return self.username
@@ -92,13 +92,13 @@ class Post(models.Model):
         related_name="userPost"
     )
     img = models.ImageField(verbose_name="投稿画像", upload_to=upload_post_path, blank=True, null=True)
-    liked = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name="いいね", black=True, related_name="liked")
+    liked = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name="いいね", blank=True, related_name="liked")
     created_at = models.DateTimeField("作成日時", auto_now_add=False)
     updated_at = models.DateTimeField("変更日時", auto_now=False)
 
     class Meta:
         verbose_name_plural = '03-01.ポスト投稿'
-        db_table = 'user'
+        db_table = 'post'
 
     def __str__(self):
         return self.title
@@ -118,7 +118,7 @@ class Comment(models.Model):
 
     class Meta:
         verbose_name_plural = '03-02.ポスト投稿へのコメント'
-        db_table = 'user'
+        db_table = 'comment'
 
     def __str__(self):
         return self.text
