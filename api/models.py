@@ -2,12 +2,19 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
 
-
+## プロフィール画像専用のpath
 def upload_avatar_path(instance, filename):
     ## ! extには拡張子（jpegやpngが入る）
     ext = filename.split(".")[-1]
     ## ! avatarsというフォルダに「ユーザープロフィールのID + ユーザーネーム + 拡張子」という名前でプロフィール画像のpath名が格納されていく
     return "/".join(["avatars", str(instance.userProfile.id) + str(instance.username) + str(".") + str(ext)])
+
+## 投稿画像専用のpath
+def upload_post_path(instance, filename):
+    ## ! extには拡張子（jpegやpngが入る）
+    ext = filename.split(".")[-1]
+    ## ! postsというフォルダに「投稿のID + 投稿のタイトル名 + 拡張子」という名前で投稿画像のpath名が格納されていく
+    return "/".join(["posts", str(instance.userPost.id) + str(instance.title) + str(".") + str(ext)])
 
 
 class UserManager(BaseUserManager):
@@ -73,3 +80,25 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class Post(models.Model):
+    title = models.CharField(verbose_name="タイトル", max_length=50)
+    text = models.TextField(verbose_name="テキスト", max_length=1000)
+    userPost = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name="ユーザー",
+        on_delete=models.CASCADE,
+        related_name="userPost"
+    )
+    img = models.ImageField(verbose_name="投稿画像", upload_to=upload_post_path, blank=True, null=True)
+    liked = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name="いいね", black=True, related_name="liked")
+    created_at = models.DateTimeField("作成日時", auto_now_add=False)
+    updated_at = models.DateTimeField("変更日時", auto_now=False)
+
+    class Meta:
+        verbose_name_plural = '03-01.ポスト投稿'
+        db_table = 'user'
+
+    def __str__(self):
+        return self.title
