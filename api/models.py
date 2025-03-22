@@ -102,3 +102,23 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    text = models.CharField(verbose_name="コメント", max_length=100)
+    userComment = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name="ユーザー",
+        on_delete=models.CASCADE,
+        related_name="userComment"
+    )
+    post = models.ForeignKey(Post, verbose_name="ポスト投稿", on_delete=models.CASCADE, related_name="post")
+    created_at = models.DateTimeField("作成日時", auto_now_add=False)
+    updated_at = models.DateTimeField("変更日時", auto_now=False)
+
+    class Meta:
+        verbose_name_plural = '03-02.ポスト投稿へのコメント'
+        db_table = 'user'
+
+    def __str__(self):
+        return self.text
