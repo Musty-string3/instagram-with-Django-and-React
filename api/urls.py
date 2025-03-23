@@ -8,7 +8,7 @@ app_name = "user"
 router = DefaultRouter()
 router.register("profile", views.ProfileViewSet)
 router.register("post", views.PostViewSet)
-router.register("post/comment", views.CommentViewSet)
+router.register("comment", views.CommentViewSet)
 
 ## ! genericsで定義したものはこっちを使う
 urlpatterns = [

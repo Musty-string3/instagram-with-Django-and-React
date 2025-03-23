@@ -71,8 +71,8 @@ class Profile(models.Model):
         related_name="userProfile"
     )
     img = models.ImageField(verbose_name="プロフィール画像", upload_to=upload_avatar_path, blank=True, null=True)
-    created_at = models.DateTimeField("作成日時", auto_now_add=False)
-    updated_at = models.DateTimeField("変更日時", auto_now=False)
+    created_at = models.DateTimeField("作成日時", auto_now_add=True)
+    updated_at = models.DateTimeField("変更日時", auto_now=True)
 
     class Meta:
         verbose_name_plural = '02-02.ユーザープロフィール'
@@ -93,8 +93,8 @@ class Post(models.Model):
     )
     img = models.ImageField(verbose_name="投稿画像", upload_to=upload_post_path, blank=True, null=True)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name="いいね", blank=True, related_name="liked")
-    created_at = models.DateTimeField("作成日時", auto_now_add=False)
-    updated_at = models.DateTimeField("変更日時", auto_now=False)
+    created_at = models.DateTimeField("作成日時", auto_now_add=True)
+    updated_at = models.DateTimeField("変更日時", auto_now=True)
 
     class Meta:
         verbose_name_plural = '03-01.ポスト投稿'
@@ -113,8 +113,8 @@ class Comment(models.Model):
         related_name="userComment"
     )
     post = models.ForeignKey(Post, verbose_name="ポスト投稿", on_delete=models.CASCADE, related_name="post")
-    created_at = models.DateTimeField("作成日時", auto_now_add=False)
-    updated_at = models.DateTimeField("変更日時", auto_now=False)
+    created_at = models.DateTimeField("作成日時", auto_now_add=True)
+    updated_at = models.DateTimeField("変更日時", auto_now=True)
 
     class Meta:
         verbose_name_plural = '03-02.ポスト投稿へのコメント'
