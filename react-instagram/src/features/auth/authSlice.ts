@@ -5,7 +5,7 @@ import axios from 'axios'
 import { PROPS_AUTHEN, PROPS_NICKNAME, PROPS_PROFILE } from '../types'
 
 
-const apiURL = process.env.REACT_APP_DEV_API_URL;
+const apiURL = import.meta.env.REACT_APP_DEV_API_URL;
 
 // ログイン
 export const fetchAsyncLogin = createAsyncThunk(
